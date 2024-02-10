@@ -14,7 +14,8 @@ export interface Page {
 
 export interface Component {
   component: string;
-  hide?: boolean
+  hide?: boolean;
+  inputs?: {[key: string]: any};
 }
 
 export interface CardStructure {

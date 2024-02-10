@@ -39,12 +39,18 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }));
   }
 
-  async addDynamicComponents(cardStructure: CardStructure[]) {
+  async addDynamicComponents(structure: CardStructure[]) {
     const components = await firstValueFrom(this.store.select(selectPageComponents(this.pageId)));
     this.adHost.clear();
-    cardStructure.forEach((component: any) => {
-      const cmp = DYNAMIC_COMPONENTS[components[component.id].component];
-      this.adHost.createComponent(cmp);
+    structure.forEach((cardStructure: CardStructure) => {
+      const cmp = DYNAMIC_COMPONENTS[components[cardStructure.id].component];
+      const cmpRef = this.adHost.createComponent(cmp);
+
+      if(cmpRef.instance) {
+        Object.assign(cmpRef.instance, { pageId: this.pageId, cardStructure },)
+      }
+
+      cmp.prototype.cardStructureId = cardStructure.id;
     });
   }
 

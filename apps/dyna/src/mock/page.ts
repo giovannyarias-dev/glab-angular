@@ -20,10 +20,16 @@ export const page = {
   ],
   components: {
     dynamicCard1: {
-      component: 'DynamicCard'
+      component: 'DynamicCard',
+      inputs: {
+        title: 'Title Card 1'
+      }
     },
     dynamicCard2: {
-      component: 'DynamicCard'
+      component: 'DynamicCard',
+      inputs: {
+        title: 'Title Card 2'
+      }
     },
     section1: {
       component: 'DynamicSection'
