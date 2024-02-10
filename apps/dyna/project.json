@@ -8,16 +8,26 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/dyna",
         "index": "apps/dyna/src/index.html",
         "browser": "apps/dyna/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/dyna/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/dyna/src/favicon.ico", "apps/dyna/src/assets"],
-        "styles": ["apps/dyna/src/styles.scss"],
+        "assets": [
+          "apps/dyna/src/favicon.ico",
+          "apps/dyna/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
+          "apps/dyna/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

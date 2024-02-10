@@ -5,6 +5,7 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { reducers } from '@store/app.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +18,5 @@ export const appConfig: ApplicationConfig = {
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
     provideEffects(), 
-    provideRouter(appRoutes)],
+    provideRouter(appRoutes), provideAnimationsAsync()],
 };
