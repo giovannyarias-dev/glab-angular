@@ -20,10 +20,10 @@ export const page = {
   ],
   components: {
     dynamicCard1: {
-      component: 'Card'
+      component: 'DynamicCard'
     },
     dynamicCard2: {
-      component: 'Card'
+      component: 'DynamicCard'
     },
     section1: {
       component: 'DynamicSection'

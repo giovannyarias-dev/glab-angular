@@ -1,5 +1,5 @@
-import { CardComponent } from "@shared/card/card.component";
+import { DynamicCardComponent } from "@shared/dynamic-card/dynamic-card.component";
 
 export const DYNAMIC_COMPONENTS: {[key: string]: any} = {
-  'Card': CardComponent
+  'DynamicCard': DynamicCardComponent
 };
