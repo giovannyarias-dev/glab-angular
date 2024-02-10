@@ -9,13 +9,13 @@ export interface PagesState {
 export interface Page {
   id: string;
   structure: CardStructure[];
-  components: {[key: string]: Component};
+  components: {[key: string]: DynamicComponent};
 }
 
-export interface Component {
+export interface DynamicComponent {
   component: string;
+  inputs: {[key: string]: any};
   hide?: boolean;
-  inputs?: {[key: string]: any};
 }
 
 export interface CardStructure {

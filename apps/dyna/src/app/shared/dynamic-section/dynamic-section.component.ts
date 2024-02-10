@@ -16,9 +16,9 @@ import { SectionStructure } from "@models/store";
 })
 export class DynamicSectionComponent implements OnInit {
 
-  @Input() sectionsStructure?: SectionStructure[];
+  @Input() sectionStructure?: SectionStructure;
 
   ngOnInit(): void {
-      console.log('sectionsStructure', this.sectionsStructure);
+    console.log('sectionsStructure', this.sectionStructure);
   }
 }

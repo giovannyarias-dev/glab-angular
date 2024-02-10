@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { DynamicSectionComponent } from "@shared/dynamic-section/dynamic-section.component";
 import { selectPageComponent } from "@store/selectors/app.selectors";
 import { Subscription } from "rxjs";
+import { DynamicComponent } from "@models/store";
 
 @Component({
   selector: "glab-dynamic-card",
@@ -19,7 +20,9 @@ import { Subscription } from "rxjs";
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <glab-dynamic-section [sectionsStructure]="cardStructure.sections"  />
+        <div *ngFor="let section of cardStructure.sections">
+          <glab-dynamic-section [sectionStructure]="section"  />
+        </div>
       </mat-card-content>
     </mat-card>
   `,
@@ -30,7 +33,7 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   subscriptions$: Subscription = new Subscription();
   pageId!: string;
   cardStructure!: CardStructure;
-  component: any
+  component!: DynamicComponent;
 
   constructor(private store: Store<AppState>) {}
 

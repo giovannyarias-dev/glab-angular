@@ -32,22 +32,28 @@ export const page = {
       }
     },
     section1: {
-      component: 'DynamicSection'
+      component: 'DynamicSection',
+      inputs: {}
     },
     section2: {
-      component: 'DynamicSection'
+      component: 'DynamicSection',
+      inputs: {}
     },
     select1: {
-      component: 'Select'
+      component: 'Select',
+      inputs: {}
     },
     select2: {
-      component: 'Select'
+      component: 'Select',
+      inputs: {}
     },
     select3: {
-      component: 'Select'
+      component: 'Select',
+      inputs: {}
     },
     select4: {
-      component: 'Select'
+      component: 'Select',
+      inputs: {}
     }
   }
 }
