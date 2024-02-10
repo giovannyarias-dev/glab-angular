@@ -1,0 +1,73 @@
+{
+  "name": "dyna",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "glab",
+  "sourceRoot": "apps/dyna/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/dyna",
+        "index": "apps/dyna/src/index.html",
+        "browser": "apps/dyna/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/dyna/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/dyna/src/favicon.ico", "apps/dyna/src/assets"],
+        "styles": ["apps/dyna/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "dyna:build:production"
+        },
+        "development": {
+          "buildTarget": "dyna:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "dyna:build"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "dyna:build",
+        "staticFilePath": "dist/apps/dyna/browser"
+      }
+    }
+  }
+}
