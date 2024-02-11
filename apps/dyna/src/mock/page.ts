@@ -1,7 +1,7 @@
 export const page = {
   id: 'home',
   structure: {
-    id: 'homeList',
+    id: 'cards',
     childs: [
       {
         id: 'dynamicCard1',
@@ -36,28 +36,16 @@ export const page = {
     },
     section1: {
       component: 'DynamicSection',
-      inputs: {}
+      inputs: {
+        title: 'Title Section 1'
+      }
     },
     section2: {
       component: 'DynamicSection',
-      inputs: {}
+      inputs: {
+        title: 'Title Section 2'
+      }
     },
-    select1: {
-      component: 'Select',
-      inputs: {}
-    },
-    select2: {
-      component: 'Select',
-      inputs: {}
-    },
-    select3: {
-      component: 'Select',
-      inputs: {}
-    },
-    select4: {
-      component: 'Select',
-      inputs: {}
-    }
   }
 }
 

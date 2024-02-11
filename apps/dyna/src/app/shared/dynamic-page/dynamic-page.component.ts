@@ -1,11 +1,11 @@
-import { CommonModule } from "@angular/common";
 import { Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
-import { DYNAMIC_COMPONENTS } from "@constants/dynamic-components";
-import { AppState, CardStructure } from "@models/store";
+import { CommonModule } from "@angular/common";
+import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
-import { selectPageComponents, selectPageStructure } from "@store/selectors/app.selectors";
-import { Subscription, firstValueFrom } from "rxjs";
+import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
+import { selectStructure } from "@store/selectors/app.selectors";
+import { AppState, Structure } from "@models/store";
 
 @Component({
   selector: "glab-dynamic-page",
@@ -22,9 +22,13 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   @Input() pageId!: string;
   @ViewChild('adHost', { static: true, read: ViewContainerRef }) adHost!: ViewContainerRef;
+
   subscriptions$: Subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private dynamicComponentService: DynamicComponentService
+  ) {}
 
   ngOnInit(): void {
     this.addStructureSubs();
@@ -32,30 +36,14 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   addStructureSubs() {
     this.subscriptions$.add(
-      this.store.select(selectPageStructure(this.pageId)).subscribe((cardStructure: CardStructure[]) => {
-        if( cardStructure ) {
-          this.addDynamicComponents(cardStructure);
+      this.store.select(selectStructure(this.pageId)).subscribe((structure: Structure) => {
+        if( structure ) {
+          this.dynamicComponentService.addComponentToView(this.adHost, this.pageId, structure);
         }
     }));
-  }
-
-  async addDynamicComponents(structure: CardStructure[]) {
-    const components = await firstValueFrom(this.store.select(selectPageComponents(this.pageId)));
-    this.adHost.clear();
-    structure.forEach((cardStructure: CardStructure) => {
-      const cmp = DYNAMIC_COMPONENTS[components[cardStructure.id].component];
-      const cmpRef = this.adHost.createComponent(cmp);
-
-      if(cmpRef.instance) {
-        Object.assign(cmpRef.instance, { pageId: this.pageId, cardStructure },)
-      }
-
-      cmp.prototype.cardStructureId = cardStructure.id;
-    });
   }
 
   ngOnDestroy() {
     this.subscriptions$.unsubscribe();
   }
-
 }

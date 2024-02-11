@@ -1,12 +1,12 @@
 import { createSelector } from "@ngrx/store";
 import { AppState } from "@models/store";
 
-export const selectPageStructure = (pageId: string) => createSelector(
+export const selectStructure = (pageId: string) => createSelector(
   (state: AppState) => state.pages[pageId].structure,
   (state: any) => state
 );
 
-export const selectPageComponent = (pageId: string, componentId: string) => createSelector(
+export const selectComponent = (pageId: string, componentId: string) => createSelector(
   (state: AppState) => state.pages[pageId].components[componentId],
   (state: any) => state
 );
