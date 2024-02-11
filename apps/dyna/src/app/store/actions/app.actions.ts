@@ -7,6 +7,5 @@ export const addPageComponents = createAction('[app] addPageComponents', props<{
 
 
 
-export const updateStructure = createAction('[app] updateStructure');
-export const updateComponents = createAction('[app] updateComponents');
+export const updateTest = createAction('[app] updateTest');
 

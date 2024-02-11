@@ -8,7 +8,16 @@ export const page = {
         childs: [
           {
             id: 'section1',
-            
+            childs: [
+              {
+                id: 'input1',
+                cols: 2
+              },
+              {
+                id: 'input2',
+                cols: 2
+              }
+            ]
           },
           {
             id: 'section2',
@@ -46,57 +55,90 @@ export const page = {
         title: 'Title Section 2'
       }
     },
+    input1: {
+      component: 'InputText',
+      cols: 2,
+      inputs: {
+        label: 'Input 1'
+      }
+    },
+    input2: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 2'
+      }
+    },
   }
 }
 
-export const newStructure = [
-  {
-    id: 'dynamicCard1',
+
+export const newPage = {
+  id: 'home',
+  structure: {
+    id: 'cards',
     childs: [
       {
-        id: 'section1',
+        id: 'dynamicCard1',
         childs: [
           {
-            id: 'select1'
+            id: 'section1',
+            childs: [
+              {
+                id: 'input1'
+              },
+              {
+                id: 'input2'
+              }
+            ]
+          },
+          {
+            id: 'section2',
+            
           }
         ]
       },
       {
-        id: 'section2',
-        childs: [
-          {
-            id: 'select3'
-          },
-          {
-            id: 'select4'
-          }
-        ]
+        id: 'dynamicCard2',
       }
     ]
-  }
-]
-
-export const newComponents = {
-  dynamicCard1: {
-    component: 'DynamicCard'
   },
-  section1: {
-    component: 'DynamicSection'
-  },
-  section2: {
-    component: 'DynamicSection'
-  },
-  select1: {
-    component: 'Select'
-  },
-  select2: {
-    component: 'Select'
-  },
-  select3: {
-    component: 'Select'
-  },
-  select4: {
-    component: 'Select',
-    hide: true
+  components: {
+    dynamicCard1: {
+      component: 'DynamicCard',
+      inputs: {
+        title: 'Title Card 1'
+      }
+    },
+    dynamicCard2: {
+      component: 'DynamicCard',
+      inputs: {
+        title: 'Title Card 2'
+      }
+    },
+    section1: {
+      component: 'DynamicSection',
+      cols: 4,
+      inputs: {
+        title: 'New Title Section 1'
+      }
+    },
+    section2: {
+      component: 'DynamicSection',
+      inputs: {
+        title: 'Title Section 2'
+      }
+    },
+    input1: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 1'
+      }
+    },
+    input2: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 3'
+      }
+    },
   }
 }

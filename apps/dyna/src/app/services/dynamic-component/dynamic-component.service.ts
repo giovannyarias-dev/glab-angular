@@ -1,7 +1,7 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-import { AppState, Structure } from '@models/store';
+import { AppState, DynamicComponent, Structure } from '@models/store';
 import { Store } from '@ngrx/store';
 import { selectComponent } from '@store/selectors/app.selectors';
 import { DYNAMIC_COMPONENTS } from '@constants/dynamic-components';
@@ -13,7 +13,7 @@ export class DynamicComponentService {
 
   constructor(private store: Store<AppState>) {}
 
-  addComponentToView(adHost: ViewContainerRef, pageId: string, structure: Structure) {
+  addStructureChildsToView(adHost: ViewContainerRef, pageId: string, structure: Structure) {
     adHost.clear();
     structure.childs?.forEach(async (structureItem: Structure) => {
       const componentConfig = await firstValueFrom(this.store.select(selectComponent(pageId, structureItem.id )));
@@ -23,5 +23,14 @@ export class DynamicComponentService {
         Object.assign(cmpRef.instance, { pageId: pageId, structure: structureItem },)
       }
     });
+  }
+
+  async addComponentToView(adHost: ViewContainerRef, component: DynamicComponent) {
+    adHost.clear();
+    const cmp = DYNAMIC_COMPONENTS[component.component];
+    const cmpRef = adHost.createComponent(cmp);
+    if(cmpRef.instance) {
+      Object.assign(cmpRef.instance, { ...component.inputs },)
+    }
   }
 }

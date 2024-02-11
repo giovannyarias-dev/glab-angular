@@ -1,22 +1,26 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import { AppState, DynamicComponent, Structure } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
-import { MatCardModule } from '@angular/material/card';
+import { DynamicComponentComponent } from "@shared/dynamic-component/dynamic-component";
 
 @Component({
   selector: "glab-dynamic-section",
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [CommonModule, DynamicComponentComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="dynamic-section">
       <div class="header">
         {{ component.inputs['title'] }}
       </div>
-      <div class="content">
+      <div class="content" [style.grid-template-columns]="gridTemplateColumns">
+        <div *ngFor="let itemStructure of structure.childs" [style.grid-column]="gridColumn(itemStructure.cols)">
+          <glab-dynamic-component [pageId]="pageId" [structure]="itemStructure"/>
+        </div>
       </div>
     </div>
   `,
@@ -41,6 +45,14 @@ export class DynamicSectionComponent implements OnInit, OnDestroy {
       this.store.select(selectComponent(this.pageId, this.structure.id )).subscribe((component) => {
         this.component = component;
     }));
+  }
+
+  get gridTemplateColumns() {
+    return `repeat(${this.structure.cols ?? 4}, 1fr)`;
+  }
+
+  gridColumn(cols: number | undefined) {
+    return `span ${cols ?? 1}`;
   }
 
   ngOnDestroy() {

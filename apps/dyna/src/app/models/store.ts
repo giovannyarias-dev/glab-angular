@@ -15,10 +15,10 @@ export interface Page {
 export interface DynamicComponent {
   component: string;
   inputs: {[key: string]: any};
-  hide?: boolean;
 }
 
 export interface Structure {
   id: string;
   childs?: Structure[];
+  cols?: number;
 }

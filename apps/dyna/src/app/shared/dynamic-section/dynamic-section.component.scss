@@ -1,8 +1,10 @@
 .dynamic-section {
   .header {
-    background-color: aqua;
+    border-bottom: 1px solid #cecece;
   }
   .content {
-    background-color: beige;
+    display: grid;
+    gap: 24px;
+    padding: 16px;
   }
 }
