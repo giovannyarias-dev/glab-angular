@@ -131,13 +131,15 @@ export const newPage = {
     input1: {
       component: 'InputText',
       inputs: {
-        label: 'Input 1'
+        label: 'Input 1',
+        value: 'Cesar'
       }
     },
     input2: {
       component: 'InputText',
       inputs: {
-        label: 'Input 3'
+        label: 'Input 3',
+        value: 'Giovanny'
       }
     },
   }

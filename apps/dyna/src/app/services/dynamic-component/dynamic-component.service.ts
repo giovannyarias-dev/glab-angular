@@ -24,13 +24,4 @@ export class DynamicComponentService {
       }
     });
   }
-
-  async addComponentToView(adHost: ViewContainerRef, component: DynamicComponent) {
-    adHost.clear();
-    const cmp = DYNAMIC_COMPONENTS[component.component];
-    const cmpRef = adHost.createComponent(cmp);
-    if(cmpRef.instance) {
-      Object.assign(cmpRef.instance, { ...component.inputs },)
-    }
-  }
 }
