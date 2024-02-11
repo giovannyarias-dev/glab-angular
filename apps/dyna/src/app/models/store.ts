@@ -8,7 +8,7 @@ export interface PagesState {
 
 export interface Page {
   id: string;
-  structure: CardStructure[];
+  structure: Structure;
   components: {[key: string]: DynamicComponent};
 }
 
@@ -18,12 +18,7 @@ export interface DynamicComponent {
   hide?: boolean;
 }
 
-export interface CardStructure {
+export interface Structure {
   id: string;
-  sections?: SectionStructure[];
-}
-
-export interface SectionStructure {
-  id: string;
-  components?: string[];
+  childs?: Structure[];
 }

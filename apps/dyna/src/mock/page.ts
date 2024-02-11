@@ -1,23 +1,26 @@
 export const page = {
   id: 'home',
-  structure: [
-    {
-      id: 'dynamicCard1',
-      sections: [
-        {
-          id: 'section1',
-          components: ['select1', 'select2']
-        },
-        {
-          id: 'section2',
-          components: ['select3', 'select4']
-        }
-      ]
-    },
-    {
-      id: 'dynamicCard2',
-    }
-  ],
+  structure: {
+    id: 'homeList',
+    childs: [
+      {
+        id: 'dynamicCard1',
+        childs: [
+          {
+            id: 'section1',
+            
+          },
+          {
+            id: 'section2',
+            
+          }
+        ]
+      },
+      {
+        id: 'dynamicCard2',
+      }
+    ]
+  },
   components: {
     dynamicCard1: {
       component: 'DynamicCard',
