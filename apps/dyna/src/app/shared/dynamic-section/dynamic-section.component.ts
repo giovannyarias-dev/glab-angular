@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { AppState, DynamicComponent, Structure } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
 import { DynamicComponentComponent } from "@shared/dynamic-component/dynamic-component";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "glab-dynamic-section",
@@ -19,7 +20,7 @@ import { DynamicComponentComponent } from "@shared/dynamic-component/dynamic-com
       </div>
       <div class="content" [style.grid-template-columns]="gridTemplateColumns">
         <div *ngFor="let itemStructure of structure.childs" [style.grid-column]="gridColumn(itemStructure.cols)">
-          <glab-dynamic-component [pageId]="pageId" [structure]="itemStructure"/>
+          <glab-dynamic-component [pageId]="pageId" [structure]="itemStructure" [form]="form"/>
         </div>
       </div>
     </div>
@@ -30,6 +31,7 @@ export class DynamicSectionComponent implements OnInit, OnDestroy {
 
   @Input() pageId!: string;
   @Input() structure!: Structure;
+  @Input() form!: FormGroup;
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;

@@ -35,9 +35,9 @@ export class InputTextComponent implements ControlValueAccessor, OnInit {
 
   onChangeFn = (_: string | null) => {
     console.log('onChangeFn');
-    if(this.callback) {
-      this.callback(this.callbackScope, this);
-    }
+    // if(this.callback) {
+    //   this.callback(this.callbackScope, this);
+    // }
   }
 
   writeValue(value: string): void {

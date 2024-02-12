@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 import { selectStructure } from "@store/selectors/app.selectors";
 import { AppState, Structure } from "@models/store";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: "glab-dynamic-page",
@@ -24,6 +25,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   @ViewChild('adHost', { static: true, read: ViewContainerRef }) adHost!: ViewContainerRef;
 
   subscriptions$: Subscription = new Subscription();
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private store: Store<AppState>,
@@ -38,7 +40,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     this.subscriptions$.add(
       this.store.select(selectStructure(this.pageId)).subscribe((structure: Structure) => {
         if( structure ) {
-          this.dynamicComponentService.addStructureChildsToView(this.adHost, this.pageId, structure);
+          this.dynamicComponentService.addStructureChildsToView(this.adHost, this.pageId, this.form, structure);
         }
     }));
   }

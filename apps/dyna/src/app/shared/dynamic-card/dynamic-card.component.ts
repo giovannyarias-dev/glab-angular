@@ -7,6 +7,7 @@ import { DynamicSectionComponent } from "@shared/dynamic-section/dynamic-section
 import { Subscription } from "rxjs";
 import { DynamicComponent } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: "glab-dynamic-card",
@@ -21,7 +22,7 @@ import { selectComponent } from "@store/selectors/app.selectors";
       </mat-card-header>
       <mat-card-content>
         <div *ngFor="let itemStructure of structure.childs">
-          <glab-dynamic-section [pageId]="pageId" [structure]="itemStructure"/>
+          <glab-dynamic-section [pageId]="pageId" [structure]="itemStructure" [form]="form"/>
         </div>
       </mat-card-content>
     </mat-card>
@@ -32,6 +33,7 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   
   @Input() pageId!: string;
   @Input() structure!: Structure;
+  @Input() form!: FormGroup;
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;

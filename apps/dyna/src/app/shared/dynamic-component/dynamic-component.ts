@@ -8,6 +8,7 @@ import { AppState, Structure } from "@models/store";
 import { DynamicComponent } from "@models/store";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { DYNAMIC_COMPONENTS } from "@constants/dynamic-components";
+import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 
 @Component({
   selector: "glab-dynamic-component",
@@ -16,7 +17,6 @@ import { DYNAMIC_COMPONENTS } from "@constants/dynamic-components";
   template: `
     <form [formGroup]="form">
       <ng-container #adHostCmp />
-      <!-- <input id="first-name" type="text" formControlName="firstName" /> -->
       <button (click)="printForn()">
         Print Form
       </button>
@@ -28,22 +28,20 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
 
   @Input() pageId!: string;
   @Input() structure!: Structure;
+  @Input() form!: FormGroup;
+
   @ViewChild('adHostCmp', { static: true, read: ViewContainerRef }) adHostCmp!: ViewContainerRef;
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;
 
-  form: FormGroup = new FormGroup({ firstName: new FormControl('')} );
-
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private dynamicComponentService: DynamicComponentService
   ) {}
 
   ngOnInit(): void {
     this.addComponentSubs();
-
-
-
   }
 
   addComponentSubs() {
@@ -51,31 +49,19 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
       this.store.select(selectComponent(this.pageId, this.structure.id )).subscribe((component) => {
         if(component) {
           this.component = component;
-          this.addComponentToView(this.adHostCmp, component);
+          this.addControl(this.structure.id, component);
+          this.dynamicComponentService.addComponentToView(this.adHostCmp, this.structure.id, component, this.form);
         }
     }));
   }
 
-  async addComponentToView(adHost: ViewContainerRef, component: DynamicComponent) {
-    adHost.clear();
-    const cmp = DYNAMIC_COMPONENTS[component.component];
-    const cmpRef = adHost.createComponent(cmp);
-    if(cmpRef.instance) {
-      const instance: any = cmpRef.instance;
-      Object.assign(instance, { ...component.inputs })
-      instance.callbackScope = this;
-      instance.callback = this.setCmpFormValues;
-    }
-  }
-
-  setCmpFormValues(scope: any, libScope: any) {
-    console.log('entra setCmpFormValues');
+  addControl(componentId: string, component: DynamicComponent) {
+    this.form.addControl(componentId, new FormControl('88'));
   }
 
   ngOnDestroy() {
     this.subscriptions$.unsubscribe();
   }
-
 
   printForn() {
     console.log('form', this.form);
