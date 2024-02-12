@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, forwardRef } from "@angular/core";
+import { Component, Input, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
@@ -16,48 +16,42 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
     }
   ]
 })
-export class InputTextComponent implements ControlValueAccessor, OnInit {
+export class InputTextComponent implements ControlValueAccessor {
 
   @Input() label?: string;
-  @Input() value: string | null = null;
-
-  callbackScope = this;
-  callback?: (callbackScope: this, scope: this) => void;
+  @Input() hide = false;
   
-  ngOnInit(): void {
-    console.log('entra Input '+this.label);
-  }
+  value?: string;
+  isDisabled?: boolean;
 
-  onChange(event: any) {
+  onChange = (fn: any) => {
+    return undefined;
+  };
+
+  onTouch = () => {
+    return undefined;
+  };
+
+  onInput(event: any) {
     this.value = event.target.value;
-    this.onChangeFn(this.value);
+    this.onTouch();
+    this.onChange(this.value);
   }
 
-  onChangeFn = (_: string | null) => {
-    console.log('onChangeFn');
-    // if(this.callback) {
-    //   this.callback(this.callbackScope, this);
-    // }
-  }
-
-  writeValue(value: string): void {
-    this.value = value;
+  writeValue(value: any): void {
+    this.value = value ?? '' 
   }
 
   registerOnChange(fn: any): void {
-    this.onChangeFn = fn;
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {
-    console.log('registerOnTouched');
+    this.onTouch = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    console.log('setDisabledState');
-  }
-
-  setReadOnlyState?(isReadOnly: boolean): void {
-    console.log('setReadOnlyState');
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
   }
 
 }

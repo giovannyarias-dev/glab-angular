@@ -7,6 +7,7 @@ import { DynamicComponentService } from "@services/dynamic-component/dynamic-com
 import { selectStructure } from "@store/selectors/app.selectors";
 import { AppState, Structure } from "@models/store";
 import { FormGroup } from "@angular/forms";
+import { updateTest } from "@store/actions/app.actions";
 
 @Component({
   selector: "glab-dynamic-page",
@@ -16,6 +17,8 @@ import { FormGroup } from "@angular/forms";
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>
+    <button (click)="update()">Actualizar</button>
+    <button (click)="printForm()">Print form</button>
   `,
   styleUrls: ["./dynamic-page.component.scss"]
 })
@@ -47,5 +50,13 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions$.unsubscribe();
+  }
+
+  update() {
+    this.store.dispatch(updateTest());
+  }
+
+  printForm() {
+    console.log(this.form);
   }
 }

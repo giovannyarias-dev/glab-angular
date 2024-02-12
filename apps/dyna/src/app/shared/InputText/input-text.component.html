@@ -1,7 +1,10 @@
-<label>
-  {{ label }}
-</label>
-<input 
-  class="input-text"
-  (change)="onChange($event)"
-/>
+<div *ngIf="!hide">
+  <label>
+    {{ label }}
+  </label>
+  <input 
+    class="input-text"
+    [value]="value"
+    (input)="onInput($event)"
+  />
+</div>

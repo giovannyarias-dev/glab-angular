@@ -13,6 +13,7 @@ import { InputTextComponent } from './input-text.component';
       <glab-input-text 
         [formControlName]="formControlName"
         [label]="label"
+        [hide]="hide"
       />
     </div>`,
 })
@@ -21,6 +22,7 @@ export class InputTextMediatorComponent implements FormComponent {
   @Input() formControlName!: string;
 
   @Input() label?: string;
+  @Input() hide = false;
 }
 
 export interface FormComponent {

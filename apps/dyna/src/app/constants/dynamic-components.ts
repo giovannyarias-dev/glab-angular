@@ -6,3 +6,7 @@ export const DYNAMIC_COMPONENTS: {[key: string]: any} = {
   'DynamicCard': DynamicCardComponent,
   'InputText': InputTextMediatorComponent,
 };
+
+export const COMPONENT_INPUTS = {
+  VALUE: 'value' 
+} 

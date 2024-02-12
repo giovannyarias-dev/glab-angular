@@ -14,7 +14,14 @@ export interface Page {
 
 export interface DynamicComponent {
   component: string;
+  triggers?: Trigger[];
   inputs: {[key: string]: any};
+}
+
+export interface Trigger {
+  type: string;
+  target: string;
+  conditionValue: string;
 }
 
 export interface Structure {

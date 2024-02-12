@@ -4,7 +4,7 @@ import { AppState } from '@models/store';
 import { page } from '@mock/page';
 import { Store } from '@ngrx/store';
 import { DynamicPageComponent } from '@shared/dynamic-page/dynamic-page.component';
-import { addPageComponents, updateTest } from '@store/actions/app.actions';
+import { addPageComponents } from '@store/actions/app.actions';
 
 @Component({
   standalone: true,
@@ -18,9 +18,5 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.store.dispatch(addPageComponents({ page }));
-  }
-
-  update() {
-    this.store.dispatch(updateTest());
   }
 }

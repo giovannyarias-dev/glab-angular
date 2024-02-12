@@ -58,14 +58,23 @@ export const page = {
     input1: {
       component: 'InputText',
       cols: 2,
+      triggers: [
+        {
+          type: 'show',
+          conditionValue: '3',
+          target: 'input2'
+        }
+      ],
       inputs: {
-        label: 'Input 1'
+        label: 'Input 1',
+        value: 'Prueba'
       }
     },
     input2: {
       component: 'InputText',
       inputs: {
-        label: 'Input 2'
+        label: 'Input 2',
+        hide: true
       }
     },
   }
