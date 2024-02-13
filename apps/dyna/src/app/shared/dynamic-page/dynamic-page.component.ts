@@ -17,8 +17,14 @@ import { updateTest } from "@store/actions/app.actions";
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>
-    <button (click)="update()">Actualizar</button>
-    <button (click)="printForm()">Print form</button>
+    <div class="actions">
+      <button (click)="update()">
+        Actualizar
+      </button>
+      <button (click)="printForm()">
+        Print form
+      </button>
+    <div>
   `,
   styleUrls: ["./dynamic-page.component.scss"]
 })

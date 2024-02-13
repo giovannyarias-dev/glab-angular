@@ -1,7 +1,7 @@
 import { newPage } from "@mock/page";
 import { createReducer, on } from "@ngrx/store";
 
-import { addPageComponents, hideComponent, showComponent, updateTest} from "@store/actions/app.actions";
+import { addPageComponents, hideComponent, showComponent, updateTest, updateValue} from "@store/actions/app.actions";
 
 const initialState = {}
 
@@ -11,7 +11,7 @@ export const appReducer = createReducer(
     return { ...state, [page.id]: page }
   }),
   on(showComponent, (state: any, { pageId, componentId}) => {
-    const inputs = {
+    const newInputs = {
       ...state[pageId].components[componentId].inputs,
       hide: false
     }
@@ -23,14 +23,14 @@ export const appReducer = createReducer(
           ...state[pageId].components, 
           [componentId]: {
             ...state[pageId].components[componentId],
-            inputs 
+            inputs: newInputs 
           }
         }
       } 
     }
   }),
   on(hideComponent, (state: any, { pageId, componentId }) => {
-    const inputs = {
+    const newInputs = {
       ...state[pageId].components[componentId].inputs,
       hide: true
     }
@@ -42,9 +42,22 @@ export const appReducer = createReducer(
           ...state[pageId].components, 
           [componentId]: {
             ...state[pageId].components[componentId],
-            inputs 
+            inputs: newInputs 
           }
         }
+      } 
+    }
+  }),
+  on(updateValue, (state: any, { pageId, componentId, value }) => {
+    const newValues = {
+      ...state[pageId].values,
+      [componentId]: value
+    }
+    return { 
+      ...state, 
+      [pageId]: {
+        ...state[pageId], 
+        values: newValues
       } 
     }
   }),

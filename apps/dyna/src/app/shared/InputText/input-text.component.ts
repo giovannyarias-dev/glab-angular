@@ -32,7 +32,7 @@ export class InputTextComponent implements ControlValueAccessor {
     return undefined;
   };
 
-  onInput(event: any) {
+  onChanfeFn(event: any) {
     this.value = event.target.value;
     this.onTouch();
     this.onChange(this.value);

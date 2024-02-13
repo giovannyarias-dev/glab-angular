@@ -6,7 +6,7 @@ import { Store } from "@ngrx/store";
 import { AppState, DynamicComponent, Structure } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
 import { DynamicComponentComponent } from "@shared/dynamic-component/dynamic-component";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: "glab-dynamic-section",

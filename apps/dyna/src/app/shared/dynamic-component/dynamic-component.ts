@@ -8,8 +8,8 @@ import { AppState, Structure, Trigger } from "@models/store";
 import { DynamicComponent } from "@models/store";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
-import { COMPONENT_INPUTS } from "@constants/dynamic-components";
-import { hideComponent, showComponent } from "@store/actions/app.actions";
+import { COMPONENT_INPUTS, TRIGGERS } from "@constants/dynamic-components";
+import { hideComponent, showComponent, updateValue } from "@store/actions/app.actions";
 
 @Component({
   selector: "glab-dynamic-component",
@@ -42,45 +42,59 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
     this.addComponentSubs();
   }
 
-  addComponentSubs() {
+  private addComponentSubs() {
     this.subscriptions$.add(
       this.store.select(selectComponent(this.pageId, this.structure.id )).subscribe((component) => {
         if(component) {
           this.component = component;
-          this.addControl(this.structure.id, component);
+          this.addControl(this.pageId, this.structure.id, component, this.form);
           this.dynamicComponentService.addComponentToView(this.adHostCmp, this.structure.id, component, this.form);
         }
     }));
   }
 
-  addControl(componentId: string, component: DynamicComponent) {
+  private addControl(pageId: string, componentId: string, component: DynamicComponent, form: FormGroup) {
     const formControl = new FormControl(component.inputs[COMPONENT_INPUTS.VALUE], Validators.required);
-    if(component.triggers) {
-      this.addTriggersSubs(formControl, component.triggers);
-    }
+    this.addTriggersSubs(pageId, formControl, component.triggers, form);
+    this.addUpdateStateSubs(pageId, formControl, componentId);
     this.form.addControl(componentId, formControl);
   }
 
-  addTriggersSubs(formControl: FormControl, triggers: Trigger[]) {
+  private addTriggersSubs(pageId: string, formControl: FormControl, triggers: Trigger[] | undefined, form: FormGroup) {
+    if(triggers) {
+      formControl.valueChanges.subscribe(value => {
+        this.applyTriggers(pageId, value, triggers, form)
+      });
+    }
+  }
+
+  private addUpdateStateSubs(pageId: string, formControl: FormControl, componentId: string) {
     formControl.valueChanges.subscribe(value => {
-      this.applyTriggers(value, triggers)
+      this.store.dispatch(updateValue({ componentId, value, pageId }));
     });
   }
 
-  applyTriggers(evalValue: any, triggers: Trigger[]) {
+  private applyTriggers(pageId: string, evalValue: any, triggers: Trigger[], form: FormGroup) {
     triggers.forEach((trigger:any) => {
-      if(trigger.type === 'show') {
-        this.applyShowTrigger(evalValue, trigger);
+      if(trigger.type === TRIGGERS.SHOW) {
+        this.applyShowTrigger(pageId, evalValue, trigger, form);
       }
     })
   }
 
-  applyShowTrigger(evalValue: any, trigger: Trigger) {
+  private applyShowTrigger(pageId: string, evalValue: any, trigger: Trigger, form: FormGroup) {
+    const targets = trigger.target instanceof Array ? trigger.target : [trigger.target];
+
     if(evalValue === trigger.conditionValue ) {
-      this.store.dispatch(showComponent({ pageId: this.pageId, componentId: trigger.target }));
+      targets.forEach((target: string) => {
+        this.store.dispatch(showComponent({ pageId, componentId: target }));
+      });
     } else {
-      this.store.dispatch(hideComponent({ pageId: this.pageId, componentId: trigger.target }));
-    }
+      targets.forEach((target: string) => {
+        // form.get(target)?.setValue('');
+        this.store.dispatch(hideComponent({ pageId, componentId: target }));
+      });
+    } 
   }
 
   ngOnDestroy() {

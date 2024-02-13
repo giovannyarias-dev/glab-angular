@@ -8,25 +8,48 @@ export const page = {
         childs: [
           {
             id: 'section1',
+            cols: 3,
             childs: [
               {
                 id: 'input1',
-                cols: 2
+                cols: 1
               },
               {
                 id: 'input2',
-                cols: 2
-              }
+                cols: 1
+              },
+              {
+                id: 'input3',
+                cols: 1
+              },
             ]
           },
           {
             id: 'section2',
-            
+            cols: 3,
+            childs: [
+              {
+                id: 'input4',
+                cols: 2
+              }
+            ]
           }
         ]
       },
       {
         id: 'dynamicCard2',
+        childs: [
+          {
+            id: 'section3',
+            cols: 3,
+            childs: [
+              {
+                id: 'input4',
+                cols: 2
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -55,6 +78,12 @@ export const page = {
         title: 'Title Section 2'
       }
     },
+    section3: {
+      component: 'DynamicSection',
+      inputs: {
+        title: 'Title Section 3'
+      }
+    },
     input1: {
       component: 'InputText',
       cols: 2,
@@ -62,7 +91,7 @@ export const page = {
         {
           type: 'show',
           conditionValue: '3',
-          target: 'input2'
+          target: ['input2', 'input3', 'input4']
         }
       ],
       inputs: {
@@ -74,6 +103,20 @@ export const page = {
       component: 'InputText',
       inputs: {
         label: 'Input 2',
+        hide: true
+      }
+    },
+    input3: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 3',
+        hide: true
+      }
+    },
+    input4: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 4',
         hide: true
       }
     },

@@ -10,6 +10,7 @@ export interface Page {
   id: string;
   structure: Structure;
   components: {[key: string]: DynamicComponent};
+  values?: {[key: string]: any};
 }
 
 export interface DynamicComponent {
@@ -20,7 +21,7 @@ export interface DynamicComponent {
 
 export interface Trigger {
   type: string;
-  target: string;
+  target: string | string[];
   conditionValue: string;
 }
 
