@@ -1,11 +1,11 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AppState, DynamicComponent, Structure } from '@models/store';
-import { selectComponent } from '@store/selectors/app.selectors';
-import { DYNAMIC_COMPONENTS } from '@constants/dynamic-components';
+import { selectComponent, selectPageComponents } from '@store/selectors/app.selectors';
+import { COMPONENT_INPUTS, DYNAMIC_COMPONENTS, REACTIVE_COMPONENTS } from '@constants/dynamic-components';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,17 @@ export class DynamicComponentService {
       instance.form = form;
       instance.formControlName = componentId;
     }
+  }
+
+  async addAllControlsToForm(pageId: string, form: FormGroup) {
+    const components = await firstValueFrom(this.store.select(selectPageComponents(pageId)));
+    Object.keys(components)
+      .filter((componentId) => components[componentId].component in REACTIVE_COMPONENTS)
+      .forEach((componentId) => {
+        form.addControl(componentId, new FormControl(components[componentId].inputs[COMPONENT_INPUTS.VALUE], Validators.required));
+      });
+
+    console.log('GIO', form);
+    return form;
   }
 }

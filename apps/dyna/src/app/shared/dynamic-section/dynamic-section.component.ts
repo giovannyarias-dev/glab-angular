@@ -12,7 +12,7 @@ import { FormGroup } from "@angular/forms";
   selector: "glab-dynamic-section",
   standalone: true,
   imports: [CommonModule, DynamicComponentComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="dynamic-section">
       <div class="header">

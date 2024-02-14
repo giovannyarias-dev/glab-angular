@@ -47,8 +47,9 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   addStructureSubs() {
     this.subscriptions$.add(
-      this.store.select(selectStructure(this.pageId)).subscribe((structure: Structure) => {
+      this.store.select(selectStructure(this.pageId)).subscribe(async (structure: Structure) => {
         if( structure ) {
+          //this.form = await this.dynamicComponentService.addAllControlsToForm(this.pageId, this.form);
           this.dynamicComponentService.addStructureChildsToView(this.adHost, this.pageId, this.form, structure);
         }
     }));

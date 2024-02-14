@@ -48,6 +48,7 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
         if(component) {
           this.component = component;
           this.addControl(this.pageId, this.structure.id, component, this.form);
+          //console.log('GIO3', this.form);
           this.dynamicComponentService.addComponentToView(this.adHostCmp, this.structure.id, component, this.form);
         }
     }));
