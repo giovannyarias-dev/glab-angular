@@ -11,6 +11,13 @@ label {
   width: -webkit-fill-available;
 }
 
+.error {
+  margin-top: 4px;
+  color: rgb(212 0 0);
+  position: absolute;
+  font-size: 12px;
+}
+
 /* &.required {
   label::after {
     content: '*';

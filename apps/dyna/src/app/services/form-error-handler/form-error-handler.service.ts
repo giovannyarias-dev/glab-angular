@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, Subscription, debounce, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { ValidationErrorService } from '@services/validation-error/validation-error.service';
 
@@ -14,25 +14,25 @@ export class FormErrorHandlerService {
 
   constructor(private validationErrorService: ValidationErrorService) { }
 
-  addHandleErrors(form: FormGroup, errorObject: object): Subscription {
-    return form.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+  addHandleErrors(form: FormGroup): Subscription {
+    return form.valueChanges.pipe(debounceTime(100), distinctUntilChanged())
     .subscribe(() => {
-      this.findErrors(form.controls, errorObject);
+      this.findErrors(form.controls);
     })
   }
 
-  private findErrors(controls: {[key: string]: AbstractControl}, errorObject: object) {
+  private findErrors(controls: {[key: string]: AbstractControl}) {
     Object.keys(controls).forEach((idControl: string) => {
-      this.findErrorsOnFormControl(idControl, controls[idControl], errorObject);
+      this.findErrorsOnFormControl(idControl, controls[idControl]);
     })
   }
 
-  private findErrorsOnFormControl(idControl: string, control: AbstractControl, errorObject: object) {
+  private findErrorsOnFormControl(idControl: string, control: AbstractControl) {
     if(this.hasError(control)) {
       this.setErrorMessage(control.errors);
-      this.setErrorToErrorObject(idControl, this.message, errorObject);
+      this.setErrorToErrorObject(idControl, this.message);
     } else {
-      this.setErrorToErrorObject(idControl, null, errorObject);
+      this.setErrorToErrorObject(idControl, null);
     }
   }
 
@@ -49,12 +49,14 @@ export class FormErrorHandlerService {
   private setErrorToErrorObject(
     field: string,
     message: string | null,
-    errorObject: object
   ) {
+    console.log(field+' - '+message+' - ');
+
+
     this.errorSubject.next({ field, message });
-    Object.defineProperty(errorObject, field, {
-      value: message,
-      writable: true
-    });
+    // Object.defineProperty(errorObject, field, {
+    //   value: message,
+    //   writable: true
+    // });
   }
 }

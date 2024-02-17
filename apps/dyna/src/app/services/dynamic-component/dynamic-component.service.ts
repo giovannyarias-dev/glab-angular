@@ -1,5 +1,5 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { distinctUntilChanged, firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -48,7 +48,7 @@ export class DynamicComponentService {
     const allComponents = await firstValueFrom(this.store.select(selectPageComponents(pageId)));
     const idReactiveComponents: string[] =  Object.keys(allComponents).filter((componentId) => REACTIVE_COMPONENTS.includes(allComponents[componentId].component));
 
-    this.formErrorHandlerService.addHandleErrors(form, {});
+    this.formErrorHandlerService.addHandleErrors(form);
     this.addErrorMessagesSubs(pageId);
     
     idReactiveComponents.forEach((componentId: string) => {
@@ -107,15 +107,17 @@ export class DynamicComponentService {
   }
 
   private addErrorMessagesSubs(pageId: string) {
-    this.formErrorHandlerService.errorSubject.subscribe((error) => {
-      if(error.field) {
-        if(error.message) {
-          this.store.dispatch(setFieldError({ pageId, componentId: error.field as string, error: error.message }));
-        } else {
-          this.store.dispatch(clearFieldError({ pageId, componentId: error.field as string }));
+    this.formErrorHandlerService.errorSubject
+      .subscribe((error) => {
+        if(error.field) {
+          if(error.message) {
+            this.store.dispatch(setFieldError({ pageId, componentId: error.field as string, error: error.message }));
+          } else {
+            this.store.dispatch(clearFieldError({ pageId, componentId: error.field as string }));
+          }
         }
       }
-    });
+    );
   }
 
 }

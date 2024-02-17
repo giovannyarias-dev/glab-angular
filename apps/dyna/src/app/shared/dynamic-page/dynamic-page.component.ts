@@ -2,26 +2,27 @@ import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnIni
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
+import {MatButtonModule} from '@angular/material/button';
+import { FormGroup } from "@angular/forms";
+import { updateTest } from "@store/actions/app.actions";
 
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 import { selectStructure } from "@store/selectors/app.selectors";
 import { AppState, Structure } from "@models/store";
-import { FormGroup } from "@angular/forms";
-import { updateTest } from "@store/actions/app.actions";
 
 @Component({
   selector: "glab-dynamic-page",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   template: `
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>
     <div class="actions">
-      <button (click)="update()" [disabled]="!form.valid">
+      <button mat-flat-button (click)="update()" [disabled]="!form.valid">
         Actualizar
       </button>
-      <button (click)="printForm()">
+      <button mat-flat-button color="primary" (click)="printForm()">
         Print form
       </button>
     <div>
