@@ -20,6 +20,7 @@ export class InputTextComponent implements ControlValueAccessor {
 
   @Input() label?: string;
   @Input() hide = false;
+  @Input() error?: string;
   
   value?: string;
   isDisabled?: boolean;

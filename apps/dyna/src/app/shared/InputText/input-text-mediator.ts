@@ -14,14 +14,17 @@ import { InputTextComponent } from './input-text.component';
         [formControlName]="formControlName"
         [label]="label"
         [hide]="hide"
+        [error]="error"
       />
     </div>`,
+  styleUrls: ['./input-text.component.scss']
 })
 export class InputTextMediatorComponent implements FormComponent {
   @Input() form!: FormGroup;
   @Input() formControlName!: string;
 
   @Input() label?: string;
+  @Input() error?: string;
   @Input() hide = false;
 }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
@@ -18,7 +18,7 @@ import { updateTest } from "@store/actions/app.actions";
       <ng-container #adHost />
     </div>
     <div class="actions">
-      <button (click)="update()">
+      <button (click)="update()" [disabled]="!form.valid">
         Actualizar
       </button>
       <button (click)="printForm()">
@@ -28,28 +28,33 @@ import { updateTest } from "@store/actions/app.actions";
   `,
   styleUrls: ["./dynamic-page.component.scss"]
 })
-export class DynamicPageComponent implements OnInit, OnDestroy {
+export class DynamicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @Input() pageId!: string;
   @ViewChild('adHost', { static: true, read: ViewContainerRef }) adHost!: ViewContainerRef;
 
   subscriptions$: Subscription = new Subscription();
-  form: FormGroup = new FormGroup({});
+  form = new FormGroup({});
 
   constructor(
     private store: Store<AppState>,
-    private dynamicComponentService: DynamicComponentService
+    private dynamicComponentService: DynamicComponentService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.addStructureSubs();
   }
 
-  addStructureSubs() {
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private addStructureSubs() {
     this.subscriptions$.add(
       this.store.select(selectStructure(this.pageId)).subscribe(async (structure: Structure) => {
         if( structure ) {
-          //this.form = await this.dynamicComponentService.addAllControlsToForm(this.pageId, this.form);
+          this.form = await this.dynamicComponentService.createForm(this.pageId);
           this.dynamicComponentService.addStructureChildsToView(this.adHost, this.pageId, this.form, structure);
         }
     }));

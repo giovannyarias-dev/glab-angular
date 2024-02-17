@@ -41,7 +41,6 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    console.log('GIO4', this.form);
     this.addComponentSubs();
   }
 

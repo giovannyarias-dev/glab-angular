@@ -5,6 +5,8 @@ export const addPageComponents = createAction('[app] addPageComponents', props<{
 export const showComponent = createAction('[app] showComponent', props<{ pageId: string, componentId: string }>());
 export const hideComponent = createAction('[app] hideComponent', props<{ pageId: string, componentId: string }>());
 export const updateValue = createAction('[app] updateValue', props<{ pageId: string, componentId: string, value: any }>());
+export const setFieldError = createAction('[app] setFieldError', props<{ pageId: string, componentId: string, error: any }>());
+export const clearFieldError = createAction('[app] clearFieldError', props<{ pageId: string, componentId: string }>());
 
 
 

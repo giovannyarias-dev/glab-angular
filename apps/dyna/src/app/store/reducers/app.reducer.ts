@@ -1,7 +1,7 @@
 import { newPage } from "@mock/page";
 import { createReducer, on } from "@ngrx/store";
 
-import { addPageComponents, hideComponent, showComponent, updateTest, updateValue} from "@store/actions/app.actions";
+import { addPageComponents, clearFieldError, hideComponent, setFieldError, showComponent, updateTest, updateValue} from "@store/actions/app.actions";
 
 const initialState = {}
 
@@ -33,6 +33,44 @@ export const appReducer = createReducer(
     const newInputs = {
       ...state[pageId].components[componentId].inputs,
       hide: true
+    }
+    return { 
+      ...state, 
+      [pageId]: {
+        ...state[pageId], 
+        components: {
+          ...state[pageId].components, 
+          [componentId]: {
+            ...state[pageId].components[componentId],
+            inputs: newInputs 
+          }
+        }
+      } 
+    }
+  }),
+  on(setFieldError, (state: any, { pageId, componentId, error }) => {
+    const newInputs = {
+      ...state[pageId].components[componentId].inputs,
+      error: error
+    }
+    return { 
+      ...state, 
+      [pageId]: {
+        ...state[pageId], 
+        components: {
+          ...state[pageId].components, 
+          [componentId]: {
+            ...state[pageId].components[componentId],
+            inputs: newInputs 
+          }
+        }
+      } 
+    }
+  }),
+  on(clearFieldError, (state: any, { pageId, componentId }) => {
+    const newInputs = {
+      ...state[pageId].components[componentId].inputs,
+      error: null
     }
     return { 
       ...state, 

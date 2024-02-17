@@ -47,55 +47,9 @@ export class DynamicComponentComponent implements OnInit, OnDestroy {
       this.store.select(selectComponent(this.pageId, this.structure.id )).subscribe((component) => {
         if(component) {
           this.component = component;
-          this.addControl(this.pageId, this.structure.id, component, this.form);
-          //console.log('GIO3', this.form);
           this.dynamicComponentService.addComponentToView(this.adHostCmp, this.structure.id, component, this.form);
         }
     }));
-  }
-
-  private addControl(pageId: string, componentId: string, component: DynamicComponent, form: FormGroup) {
-    const formControl = new FormControl(component.inputs[COMPONENT_INPUTS.VALUE], Validators.required);
-    this.addTriggersSubs(pageId, formControl, component.triggers, form);
-    this.addUpdateStateSubs(pageId, formControl, componentId);
-    this.form.addControl(componentId, formControl);
-  }
-
-  private addTriggersSubs(pageId: string, formControl: FormControl, triggers: Trigger[] | undefined, form: FormGroup) {
-    if(triggers) {
-      formControl.valueChanges.subscribe(value => {
-        this.applyTriggers(pageId, value, triggers, form)
-      });
-    }
-  }
-
-  private addUpdateStateSubs(pageId: string, formControl: FormControl, componentId: string) {
-    formControl.valueChanges.subscribe(value => {
-      this.store.dispatch(updateValue({ componentId, value, pageId }));
-    });
-  }
-
-  private applyTriggers(pageId: string, evalValue: any, triggers: Trigger[], form: FormGroup) {
-    triggers.forEach((trigger:any) => {
-      if(trigger.type === TRIGGERS.SHOW) {
-        this.applyShowTrigger(pageId, evalValue, trigger, form);
-      }
-    })
-  }
-
-  private applyShowTrigger(pageId: string, evalValue: any, trigger: Trigger, form: FormGroup) {
-    const targets = trigger.target instanceof Array ? trigger.target : [trigger.target];
-
-    if(evalValue === trigger.conditionValue ) {
-      targets.forEach((target: string) => {
-        this.store.dispatch(showComponent({ pageId, componentId: target }));
-      });
-    } else {
-      targets.forEach((target: string) => {
-        // form.get(target)?.setValue('');
-        this.store.dispatch(hideComponent({ pageId, componentId: target }));
-      });
-    } 
   }
 
   ngOnDestroy() {

@@ -86,6 +86,7 @@ export const page = {
     },
     input1: {
       component: 'InputText',
+      validators: ['required'],
       cols: 2,
       triggers: [
         {
@@ -96,7 +97,6 @@ export const page = {
       ],
       inputs: {
         label: 'Input 1',
-        value: 'Prueba'
       }
     },
     input2: {
@@ -134,23 +134,48 @@ export const newPage = {
         childs: [
           {
             id: 'section1',
+            cols: 3,
             childs: [
               {
-                id: 'input1'
+                id: 'input1',
+                cols: 1
               },
               {
-                id: 'input2'
-              }
+                id: 'input2',
+                cols: 1
+              },
+              {
+                id: 'input3',
+                cols: 1
+              },
             ]
           },
           {
             id: 'section2',
-            
+            cols: 3,
+            childs: [
+              {
+                id: 'input4',
+                cols: 2
+              }
+            ]
           }
         ]
       },
       {
         id: 'dynamicCard2',
+        childs: [
+          {
+            id: 'section3',
+            cols: 3,
+            childs: [
+              {
+                id: 'input4',
+                cols: 2
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -169,9 +194,8 @@ export const newPage = {
     },
     section1: {
       component: 'DynamicSection',
-      cols: 4,
       inputs: {
-        title: 'New Title Section 1'
+        title: 'Title Section 1'
       }
     },
     section2: {
@@ -180,18 +204,47 @@ export const newPage = {
         title: 'Title Section 2'
       }
     },
+    section3: {
+      component: 'DynamicSection',
+      inputs: {
+        title: 'Title Section 3'
+      }
+    },
     input1: {
       component: 'InputText',
+      cols: 2,
+      validators: ['required'],
+      triggers: [
+        {
+          type: 'show',
+          conditionValue: '3',
+          target: ['input2', 'input3', 'input4']
+        }
+      ],
       inputs: {
         label: 'Input 1',
-        value: 'Cesar'
       }
     },
     input2: {
       component: 'InputText',
+      validators: ['required'],
+      inputs: {
+        label: 'Input 2',
+        hide: true
+      }
+    },
+    input3: {
+      component: 'InputText',
       inputs: {
         label: 'Input 3',
-        value: 'Giovanny'
+        hide: true
+      }
+    },
+    input4: {
+      component: 'InputText',
+      inputs: {
+        label: 'Input 4',
+        hide: true
       }
     },
   }

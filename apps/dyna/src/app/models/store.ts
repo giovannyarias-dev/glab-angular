@@ -15,8 +15,10 @@ export interface Page {
 
 export interface DynamicComponent {
   component: string;
-  triggers?: Trigger[];
   inputs: {[key: string]: any};
+  triggers?: Trigger[];
+  validators?: string[];
+  error?: string;
 }
 
 export interface Trigger {
