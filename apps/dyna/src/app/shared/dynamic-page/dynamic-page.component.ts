@@ -4,7 +4,6 @@ import { Subscription } from "rxjs";
 import { Store } from "@ngrx/store";
 import {MatButtonModule} from '@angular/material/button';
 import { FormGroup } from "@angular/forms";
-import { updateTest } from "@store/actions/app.actions";
 
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 import { selectPageActions, selectStructure } from "@store/selectors/app.selectors";
@@ -70,13 +69,5 @@ export class DynamicPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   ngOnDestroy() {
     this.subscriptions$.unsubscribe();
-  }
-
-  update() {
-    this.store.dispatch(updateTest());
-  }
-
-  printForm() {
-    console.log(this.form);
   }
 }
