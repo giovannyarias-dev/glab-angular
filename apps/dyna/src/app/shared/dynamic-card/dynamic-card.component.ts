@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { DynamicComponent } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
 import { FormGroup } from "@angular/forms";
-import { ExpansionCardComponent } from "@bits/expansion-card.component";
+import { ExpansionCardComponent } from "@bits/expansion-card";
 
 @Component({
   selector: "glab-dynamic-card",
@@ -30,7 +30,7 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   @Input() pageId!: string;
   @Input() structure!: Structure;
   @Input() form!: FormGroup;
-  
+
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;

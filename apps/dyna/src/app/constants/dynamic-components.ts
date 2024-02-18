@@ -1,4 +1,4 @@
-import { InputTextMediatorComponent } from "@shared/InputText/input-text-mediator";
+import { InputTextMediatorComponent } from "@bits/input-text-mediator";
 import { DynamicCardComponent } from "@shared/dynamic-card/dynamic-card.component";
 
 export const COMPONENTS = {

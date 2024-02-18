@@ -9,13 +9,14 @@ import { updateTest } from "@store/actions/app.actions";
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 import { selectStructure } from "@store/selectors/app.selectors";
 import { AppState, Structure } from "@models/store";
-import { ExpansionCardComponent } from "@bits/expansion-card.component";
+import { ExpansionCardComponent, IconComponent } from "@bits/";
 
 @Component({
   selector: "glab-dynamic-page",
   standalone: true,
-  imports: [CommonModule, MatButtonModule, ExpansionCardComponent],
+  imports: [CommonModule, MatButtonModule, ExpansionCardComponent, IconComponent],
   template: `
+    <glab-icon name="music"></glab-icon>
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>

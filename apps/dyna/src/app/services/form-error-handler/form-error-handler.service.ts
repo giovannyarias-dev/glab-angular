@@ -50,13 +50,6 @@ export class FormErrorHandlerService {
     field: string,
     message: string | null,
   ) {
-    console.log(field+' - '+message+' - ');
-
-
     this.errorSubject.next({ field, message });
-    // Object.defineProperty(errorObject, field, {
-    //   value: message,
-    //   writable: true
-    // });
   }
 }
