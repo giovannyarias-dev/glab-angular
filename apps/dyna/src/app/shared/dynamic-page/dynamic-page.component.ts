@@ -9,23 +9,24 @@ import { updateTest } from "@store/actions/app.actions";
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
 import { selectStructure } from "@store/selectors/app.selectors";
 import { AppState, Structure } from "@models/store";
+import { ExpansionCardComponent } from "@bits/expansion-card.component";
 
 @Component({
   selector: "glab-dynamic-page",
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule, ExpansionCardComponent],
   template: `
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>
-    <div class="actions">
+    <!-- <div class="actions">
       <button mat-flat-button (click)="update()" [disabled]="!form.valid">
         Actualizar
       </button>
       <button mat-flat-button color="primary" (click)="printForm()">
         Print form
       </button>
-    <div>
+    <div> -->
   `,
   styleUrls: ["./dynamic-page.component.scss"]
 })

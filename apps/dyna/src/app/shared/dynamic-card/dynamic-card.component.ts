@@ -8,24 +8,20 @@ import { Subscription } from "rxjs";
 import { DynamicComponent } from "@models/store";
 import { selectComponent } from "@store/selectors/app.selectors";
 import { FormGroup } from "@angular/forms";
+import { ExpansionCardComponent } from "@bits/expansion-card.component";
 
 @Component({
   selector: "glab-dynamic-card",
   standalone: true,
-  imports: [CommonModule, MatCardModule, DynamicSectionComponent],
+  imports: [CommonModule, MatCardModule, DynamicSectionComponent, ExpansionCardComponent],
   template: `
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          {{ component.inputs['title'] }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <glab-expansion-card [title]="component.inputs['title']">
+      <ng-container content>
         <div *ngFor="let itemStructure of structure.childs">
           <glab-dynamic-section [pageId]="pageId" [structure]="itemStructure" [form]="form"/>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </ng-container>
+    </glab-expansion-card>
   `,
   styleUrls: []
 })
@@ -34,6 +30,7 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   @Input() pageId!: string;
   @Input() structure!: Structure;
   @Input() form!: FormGroup;
+  
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;
