@@ -61,8 +61,11 @@ $test-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { 
-  height: 100%; 
+html {
+  height: 100%;
+} 
+
+body { 
   background-color: #d4d4d4;
 }
 

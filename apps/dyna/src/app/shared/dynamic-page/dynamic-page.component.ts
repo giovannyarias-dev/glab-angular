@@ -7,27 +7,23 @@ import { FormGroup } from "@angular/forms";
 import { updateTest } from "@store/actions/app.actions";
 
 import { DynamicComponentService } from "@services/dynamic-component/dynamic-component.service";
-import { selectStructure } from "@store/selectors/app.selectors";
-import { AppState, Structure } from "@models/store";
-import { ExpansionCardComponent, IconComponent } from "@bits/";
+import { selectPageActions, selectStructure } from "@store/selectors/app.selectors";
+import { Actions, AppState, Structure } from "@models/store";
+import { ExpansionCardComponent, IconComponent, PageActionsComponent } from "@bits/";
 
 @Component({
   selector: "glab-dynamic-page",
   standalone: true,
-  imports: [CommonModule, MatButtonModule, ExpansionCardComponent, IconComponent],
+  imports: [CommonModule, MatButtonModule, ExpansionCardComponent, IconComponent, PageActionsComponent],
   template: `
-    <glab-icon name="music"></glab-icon>
     <div class="dynamic-page">
       <ng-container #adHost />
     </div>
-    <!-- <div class="actions">
-      <button mat-flat-button (click)="update()" [disabled]="!form.valid">
-        Actualizar
-      </button>
-      <button mat-flat-button color="primary" (click)="printForm()">
-        Print form
-      </button>
-    <div> -->
+    <glab-page-actions 
+      *ngIf="actions" 
+      [actions]="actions" 
+      [isFormValid]="form.valid"
+    />
   `,
   styleUrls: ["./dynamic-page.component.scss"]
 })
@@ -38,6 +34,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   subscriptions$: Subscription = new Subscription();
   form = new FormGroup({});
+  actions?: Actions;
 
   constructor(
     private store: Store<AppState>,
@@ -47,6 +44,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   ngOnInit(): void {
     this.addStructureSubs();
+    this.addActionsSubs();
   }
 
   ngAfterViewChecked(): void {
@@ -60,6 +58,13 @@ export class DynamicPageComponent implements OnInit, OnDestroy, AfterViewChecked
           this.form = await this.dynamicComponentService.createForm(this.pageId);
           this.dynamicComponentService.addStructureChildsToView(this.adHost, this.pageId, this.form, structure);
         }
+    }));
+  }
+
+  private addActionsSubs() {
+    this.subscriptions$.add(
+      this.store.select(selectPageActions(this.pageId)).subscribe(async (actions: Actions) => {
+        this.actions = actions;
     }));
   }
 

@@ -15,3 +15,8 @@ export const selectPageComponents = (pageId: string) => createSelector(
   (state: AppState) => state.pages[pageId].components,
   (state: any) => state
 );
+
+export const selectPageActions = (pageId: string) => createSelector(
+  (state: AppState) => state.pages[pageId].actions,
+  (state: any) => state
+);

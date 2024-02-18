@@ -120,6 +120,22 @@ export const page = {
         hide: true
       }
     },
+  },
+  actions: {
+    left: [
+      {
+        label: 'Atras',
+        id: 'prev',
+      }
+    ],
+    right: [
+      {
+        label: 'Siguiente',
+        id: 'next',
+        disabled: true,
+        validateForm: true
+      }
+    ]
   }
 }
 

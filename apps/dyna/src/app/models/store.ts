@@ -10,6 +10,7 @@ export interface Page {
   id: string;
   structure: Structure;
   components: {[key: string]: DynamicComponent};
+  actions: Actions;
   values?: {[key: string]: any};
 }
 
@@ -31,4 +32,15 @@ export interface Structure {
   id: string;
   childs?: Structure[];
   cols?: number;
+}
+
+export interface Actions {
+  left: Action[];
+  right: Action[];
+}
+
+export interface Action {
+  label: string;
+  id: string;
+  disabled?: boolean;
 }

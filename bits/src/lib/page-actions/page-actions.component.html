@@ -1,0 +1,22 @@
+<div class="page-actions">
+  <div class="container">
+    <div>
+      <button 
+        mat-stroked-button color="primary" 
+        *ngFor="let action of actions?.left" 
+        [disabled]="action.disabled"
+      >
+        {{ action.label }}
+      </button>
+    </div>
+    <div>
+      <button 
+        mat-flat-button color="primary" 
+        *ngFor="let action of actions?.right" 
+        [disabled]="(action.disabled && !action.validateForm) || (action.validateForm && !isFormValid)"
+      >
+        {{ action.label }}
+      </button>
+    </div>
+  </div>
+</div>

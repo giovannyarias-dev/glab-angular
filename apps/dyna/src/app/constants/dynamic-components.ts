@@ -20,6 +20,7 @@ export const REACTIVE_COMPONENTS = [
 export const COMPONENT_INPUTS = {
   VALUE: 'value', 
   HIDE: 'hide',
+  ERROR: 'error'
 } 
 
 export const TRIGGERS = {

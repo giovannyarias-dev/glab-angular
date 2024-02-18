@@ -84,15 +84,21 @@ export class DynamicComponentService {
 
   private applyShowTrigger(pageId: string, evalValue: any, trigger: Trigger, form: FormGroup) {
     const targets = trigger.target instanceof Array ? trigger.target : [trigger.target];
-
+    
     if(evalValue === trigger.conditionValue ) {
-      targets.forEach((target: string) => {
-        this.store.dispatch(showComponent({ pageId, componentId: target }));
+      targets.forEach(async (target: string) => {
+        const targetComponent = await firstValueFrom(this.store.select(selectComponent(pageId, target)));
+        if(targetComponent.inputs[COMPONENT_INPUTS.HIDE]) {
+          this.store.dispatch(showComponent({ pageId, componentId: target }));
+        }
       });
     } else {
-      targets.forEach((target: string) => {
-        form.get(target)?.setValue('');
-        this.store.dispatch(hideComponent({ pageId, componentId: target }));
+      targets.forEach(async (target: string) => {
+        const targetComponent = await firstValueFrom(this.store.select(selectComponent(pageId, target)));
+        if(!targetComponent.inputs[COMPONENT_INPUTS.HIDE]) {
+          form.get(target)?.setValue('');
+          this.store.dispatch(hideComponent({ pageId, componentId: target }));
+        }
       });
     } 
   }
@@ -108,12 +114,15 @@ export class DynamicComponentService {
 
   private addErrorMessagesSubs(pageId: string) {
     this.formErrorHandlerService.errorSubject
-      .subscribe((error) => {
+      .subscribe(async (error) => {
         if(error.field) {
           if(error.message) {
             this.store.dispatch(setFieldError({ pageId, componentId: error.field as string, error: error.message }));
           } else {
-            this.store.dispatch(clearFieldError({ pageId, componentId: error.field as string }));
+            const component = await firstValueFrom(this.store.select(selectComponent(pageId, error.field as string)));
+            if(component.inputs[COMPONENT_INPUTS.ERROR]) {
+              this.store.dispatch(clearFieldError({ pageId, componentId: error.field as string }));
+            }
           }
         }
       }

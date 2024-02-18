@@ -1,0 +1,13 @@
+.page-actions {
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  left: 0;
+  right: 0;
+  padding: 16px;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
