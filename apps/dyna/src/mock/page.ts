@@ -63,7 +63,8 @@ export const page = {
     dynamicCard2: {
       component: 'DynamicCard',
       inputs: {
-        title: 'Title Card 2'
+        title: 'Title Card 2',
+        hide: true
       }
     },
     section1: {
@@ -75,7 +76,7 @@ export const page = {
     section2: {
       component: 'DynamicSection',
       inputs: {
-        title: 'Title Section 2'
+        title: 'Title Section 2',
       }
     },
     section3: {
@@ -92,7 +93,7 @@ export const page = {
         {
           type: 'show',
           conditionValue: '3',
-          target: ['input2', 'input3', 'input4']
+          target: ['input2', 'input3', 'dynamicCard2']
         }
       ],
       inputs: {
@@ -205,7 +206,8 @@ export const newPage = {
     dynamicCard2: {
       component: 'DynamicCard',
       inputs: {
-        title: 'Title Card 2'
+        title: 'Title Card 2',
+        hide: true
       }
     },
     section1: {

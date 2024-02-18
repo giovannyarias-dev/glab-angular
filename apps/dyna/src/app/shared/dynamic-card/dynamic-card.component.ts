@@ -15,7 +15,7 @@ import { ExpansionCardComponent } from "@bits/expansion-card";
   standalone: true,
   imports: [CommonModule, MatCardModule, DynamicSectionComponent, ExpansionCardComponent],
   template: `
-    <glab-expansion-card [title]="component.inputs['title']">
+    <glab-expansion-card [title]="component.inputs['title']" *ngIf="!component.inputs['hide']">
       <ng-container content>
         <div *ngFor="let itemStructure of structure.childs">
           <glab-dynamic-section [pageId]="pageId" [structure]="itemStructure" [form]="form"/>
@@ -30,7 +30,6 @@ export class DynamicCardComponent implements OnInit, OnDestroy {
   @Input() pageId!: string;
   @Input() structure!: Structure;
   @Input() form!: FormGroup;
-
 
   subscriptions$: Subscription = new Subscription();
   component!: DynamicComponent;
