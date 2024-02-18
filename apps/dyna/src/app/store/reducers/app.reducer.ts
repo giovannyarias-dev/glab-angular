@@ -1,4 +1,5 @@
 import { newPage } from "@mock/page";
+import { PagesState } from "@models/store";
 import { createReducer, on } from "@ngrx/store";
 
 import { addPageComponents, clearFieldError, hideComponent, setFieldError, showComponent, updateTest, updateValue} from "@store/actions/app.actions";
@@ -10,83 +11,35 @@ export const appReducer = createReducer(
   on(addPageComponents, (state, { page }) => {
     return { ...state, [page.id]: page }
   }),
-  on(showComponent, (state: any, { pageId, componentId}) => {
+  on(showComponent, (state: PagesState, { pageId, componentId}) => {
     const newInputs = {
       ...state[pageId].components[componentId].inputs,
       hide: false
     }
-    return { 
-      ...state, 
-      [pageId]: {
-        ...state[pageId], 
-        components: {
-          ...state[pageId].components, 
-          [componentId]: {
-            ...state[pageId].components[componentId],
-            inputs: newInputs 
-          }
-        }
-      } 
-    }
+    return updateInputs(state, pageId, componentId, newInputs);
   }),
-  on(hideComponent, (state: any, { pageId, componentId }) => {
+  on(hideComponent, (state: PagesState, { pageId, componentId }) => {
     const newInputs = {
       ...state[pageId].components[componentId].inputs,
       hide: true
     }
-    return { 
-      ...state, 
-      [pageId]: {
-        ...state[pageId], 
-        components: {
-          ...state[pageId].components, 
-          [componentId]: {
-            ...state[pageId].components[componentId],
-            inputs: newInputs 
-          }
-        }
-      } 
-    }
+    return updateInputs(state, pageId, componentId, newInputs);
   }),
-  on(setFieldError, (state: any, { pageId, componentId, error }) => {
+  on(setFieldError, (state: PagesState, { pageId, componentId, error }) => {
     const newInputs = {
       ...state[pageId].components[componentId].inputs,
       error: error
     }
-    return { 
-      ...state, 
-      [pageId]: {
-        ...state[pageId], 
-        components: {
-          ...state[pageId].components, 
-          [componentId]: {
-            ...state[pageId].components[componentId],
-            inputs: newInputs 
-          }
-        }
-      } 
-    }
+    return updateInputs(state, pageId, componentId, newInputs);
   }),
-  on(clearFieldError, (state: any, { pageId, componentId }) => {
+  on(clearFieldError, (state: PagesState, { pageId, componentId }) => {
     const newInputs = {
       ...state[pageId].components[componentId].inputs,
       error: null
     }
-    return { 
-      ...state, 
-      [pageId]: {
-        ...state[pageId], 
-        components: {
-          ...state[pageId].components, 
-          [componentId]: {
-            ...state[pageId].components[componentId],
-            inputs: newInputs 
-          }
-        }
-      } 
-    }
+    return updateInputs(state, pageId, componentId, newInputs);
   }),
-  on(updateValue, (state: any, { pageId, componentId, value }) => {
+  on(updateValue, (state: PagesState, { pageId, componentId, value }) => {
     const newValues = {
       ...state[pageId].values,
       [componentId]: value
@@ -103,3 +56,19 @@ export const appReducer = createReducer(
     return { ...state, ['home']: newPage }
   }),
 )
+
+const updateInputs = (state: PagesState, pageId: string, componentId: string, newInputs: {[key: string]: any}) => {
+  return { 
+    ...state, 
+    [pageId]: {
+      ...state[pageId], 
+      components: {
+        ...state[pageId].components, 
+        [componentId]: {
+          ...state[pageId].components[componentId],
+          inputs: newInputs 
+        }
+      }
+    } 
+  }
+}

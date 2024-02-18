@@ -57,7 +57,7 @@ export class DynamicComponentService {
       
       this.addTriggersSubs(pageId, formControl, component.triggers, form);
       
-      if(!component.hide) 
+      if(!component.inputs[COMPONENT_INPUTS.HIDE] && component.validators) 
         this.addValidators(formControl, component.validators);
 
       form.addControl(componentId, formControl);
